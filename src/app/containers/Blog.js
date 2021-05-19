@@ -26,13 +26,12 @@ const Blog = () => {
 
     const [content,setContent] = useState(null);
     const [menuWidth,setMenuWidth] = useState(0);
-    const [conetentWidth,setContentWidth] = useState(0);
    
     const fetchContent = async (id,menu) =>{
         try{
             let content;
             if (menu){
-                content = (await ContentService.getLastContent(menu)).data;
+                content = (await ContentService.getLastContentByMenu(menu)).data;
             }else{
                 content = (await ContentService.getContentOne(id)).data;
             }
@@ -49,8 +48,7 @@ const Blog = () => {
      * @desc 
     */
     useEffect(function setChangedWidth(){
-        setMenuWidth(windowSize.width/12*3);
-        setContentWidth(windowSize.width/12*9);
+       
     },[windowSize.width]);
 
 
@@ -82,18 +80,7 @@ const Blog = () => {
     return (
         <div className={classes.blogContainer}>
             <Grid container spacing={0}>
-            
-                {/* 1. Left Side Menu */}
-                <Grid item md={3} lg={3} xl={2}>
-                    <Hidden smDown>
-                        <LeftSideMenu menuWidth={menuWidth}/>
-                    </Hidden>
-                </Grid>
-
-                {/* 2. Blog Content */}
-                <Grid item xs={12} sm={12} md={9} lg={9} xl={10}>
-                    <Content content={content} conetentWidth={conetentWidth} />
-                </Grid>
+                <Content content={content}/>
             </Grid>
         </div>
 

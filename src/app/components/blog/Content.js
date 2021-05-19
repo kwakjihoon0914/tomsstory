@@ -10,10 +10,9 @@ import RenderedContent from './RenderedContent';
 const useStyles = makeStyles((theme) => ({
 
     contentContainer: {
+        width:"100%",
         overflow: "auto",
-        //marginLeft:5,
         backgroundColor: "#f6faf5"
-        //marginRight:5
     },
 
 }));
@@ -85,22 +84,25 @@ A table:
 `
 
 
-const Content = ({ content, contentWidth }) => {
+const Content = ({ content }) => {
     const classes = useStyles();
 
 
     return (
-        <div className={classes.contentContainer} style={{ widht: contentWidth }}>
-            {content ?
-                <div>
-                    <Title {...content} />
-                    <Divider />
-                    <RenderedContent type={"md"} content={content.text}  /> 
-                    <Comment type={"blog"} requestId={content.id}/>
-                </div>
-            :   <Title {...{title:"준비중",subTitle:"-",createdAt:"Kwak ji hoon"}} />
+        <div className={classes.contentContainer}>
+            {content 
+                ?(
+                    <div>
+                        <Title {...content} />
+                        <Divider />
+                        <RenderedContent type={"md"} content={content.text}  /> 
+                      <Comment type={"blog"} requestId={content.id}/>
+                    </div>
+                )
+               :(
+                    <Title {...{title:"준비중",subTitle:"-",createdAt:"Kwak ji hoon"}} />
+                )
             }
-            
         </div>
     )
 }

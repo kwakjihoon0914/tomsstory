@@ -5,10 +5,13 @@ import { createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
 import CommonStyle from '../../styles/CommonStyle';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
+import { FaJava, FaDatabase, FaChrome, FaReact, FaServer, FaHome, FaSearchPlus } from 'react-icons/fa';
+import { IoLogoJavascript, IoCodeSlashOutline } from "react-icons/io5";
+import { SiSpring, SiApachemaven } from "react-icons/si";
 
 const useStyles = makeStyles((theme) => ({
-    subTitleContainer: {
-        height: 230
+    titleContainer: {
+        height: 180
         , backgroundColor: "rgb(40, 42, 54)"//CommonStyle.mainColor
     },
     subTitleText: {
@@ -16,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         top: "calc(40% - 40px)",
         color: CommonStyle.mainComplementaryColor,
-        
+
     },
     createdInfoText: {
         textAlign: "center",
@@ -24,32 +27,63 @@ const useStyles = makeStyles((theme) => ({
         top: "calc(40% - 20px)",
         color: CommonStyle.mainColor
     },
+    underNavBarContainer: {
+        backgroundColor: "rgb(40, 42, 54)",
+        textAlign: "center",
+    },
+    navBtnContainer: {
+        paddingBottom: 20
+    },
+    navBtn: {
+        margin: 5,
+        color: CommonStyle.mainComplementaryColor,
+    }
 
 }));
-
+const NavBarBtn = ({ }) => {
+    const { isMobile } = useDeviceDetect();
+    const classes = useStyles({ isMobile });
+    return (
+        <span className={classes.navBtn}>
+            <FaSearchPlus size={25} />
+        </span>
+    )
+}
+const UnderNavBar = ({ }) => {
+    const { isMobile } = useDeviceDetect();
+    const classes = useStyles({ isMobile });
+    return (
+        <div className={classes.underNavBarContainer}>
+            <div className={classes.navBtnContainer}>
+                <NavBarBtn />
+                <NavBarBtn />
+            </div>
+        </div>
+    )
+}
 
 const Title = ({ title, subTitle, createdBy, createdAt }) => {
-    const {isMobile} = useDeviceDetect();
+    const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
     const titleTheme = createMuiTheme({
         typography: {
-            h3:{
-                fontSize: isMobile? 18:27,
+            h3: {
+                fontSize: isMobile ? 18 : 27,
             },
-            h6:{
-                fontSize: isMobile? 15:23,
-                margin:5
+            h6: {
+                fontSize: isMobile ? 15 : 23,
+                margin: 5
             },
             subtitle1: {
-                fontSize: isMobile? 12:15,
+                fontSize: isMobile ? 12 : 15,
             },
         },
 
     });
-   
+
     return (
         <ThemeProvider theme={titleTheme}>
-            <div className={classes.subTitleContainer}>
+            <div className={classes.titleContainer}>
                 <Typography className={classes.subTitleText} variant="h3">
                     {title}
                 </Typography>
@@ -60,6 +94,7 @@ const Title = ({ title, subTitle, createdBy, createdAt }) => {
                     By. {createdBy} - {createdAt}
                 </Typography>
             </div>
+            {/* <UnderNavBar /> */}
         </ThemeProvider>
     )
 }

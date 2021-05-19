@@ -121,12 +121,12 @@ function printResponseDebug(response) {
     customConsole(
         `############### COMMON AXIOS RES START ############# [ ${new Date()
             .toLocaleString('en-US')
-            .split(', ')} ]`,2
+            .split(', ')} ]`,0
     );
-    customConsole(`(RES) URL          :  ${response.config.url}`,2);
-    customConsole(`(RES) DATA         :  ${JSON.stringify(response.data  )}`,2);
-    customConsole(`(RES) HTTP_STATUS  :  ${JSON.stringify(response.status)}`,2);
-    customConsole(`############### COMMON AXIOS RES END ###############`,2);
+    customConsole(`(RES) URL          :  ${response.config.url}`,0);
+    customConsole(`(RES) DATA         :  ${JSON.stringify(response.data  )}`,0);
+    customConsole(`(RES) HTTP_STATUS  :  ${JSON.stringify(response.status)}`,0);
+    customConsole(`############### COMMON AXIOS RES END ###############`,0);
 }
 
 export default CommonAxios;

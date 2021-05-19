@@ -2,9 +2,12 @@
 
 
 const CommonConfig = {
-    APP_NAME : "TOM's story",
-    BASE_URL : "http://localhost:8080",
-    ENV:"local"
+    APP_NAME : "Notepad",
+    BASE_URL : "http://localhost:8080", // package.json - proxy!!
+    ENV:"LOCAL",
+
+
+    
 }
 
 

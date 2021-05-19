@@ -14,6 +14,7 @@ import CommonStyle from '../styles/CommonStyle';
 import {isMobile} from  "react-device-detect";
 import CommonConfig from '../config/CommonConfig';
 
+import { FaSearchPlus } from 'react-icons/fa';
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
 
@@ -43,13 +44,16 @@ const useStyles = makeStyles(theme => ({
             color: CommonStyle.mainComplementaryColor
         }
     }
-    , navContainer: {
+    , toolbarContainer: {
         marginLeft: "10%",
         marginRight: "10%",
         justifyContent: "space-between"
     }
-    , navContainerForMobile: {
-        justifyContent: "space-between",
+    , toolbarContainerForMobile: {
+        justifyContent: "space-between"
+    }
+    , navContainer:{
+        flexDirection:"row"
     }
     , btnLink: {
         fontSize: 18,
@@ -58,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     , nabLink: {
         textDecoration: "none"
     }
+    , 
 
 }))
 
@@ -106,8 +111,8 @@ const TopAppBar = () => {
     return (
         <React.Fragment>
             <AppBar position="static" className={topAppBarStyle} position="fixed" onMouseOver={() => setIsScrollTop(false)} onMouseLeave={() => setIsScrollTop(window.scrollY == 0)}>
-                <div >
-                    <Toolbar className={isMobile?classes.navContainerForMobile:classes.navContainer}>
+                <div className={classes.navContainer}>
+                    <Toolbar className={isMobile?classes.toolbarContainerForMobile:classes.toolbarContainer}>
                         
                         {/***************** Logo *****************/}
                         <div>
@@ -124,12 +129,17 @@ const TopAppBar = () => {
                         {/***************** Links *****************/}
                         <div>
                             <Link to="/intro" className={classes.nabLink}>
-                                <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>INTRO</Button>
+                                <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>Intro</Button>
                             </Link>
                             <span style={{ color: getInnerTextColor() }}>|</span>
-                            <Link to="/blogs/home/last" className={classes.nabLink}>
-                                <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>BLOG</Button>
+                            <Link to="/blogs" className={classes.nabLink}>
+                                <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>Blog</Button>
                             </Link>
+                            <span style={{ color: getInnerTextColor() }}>|</span>
+                            <Link to="//github.com/kwakjihoon0914" target="_blank" className={classes.nabLink}>
+                                <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>Git</Button>
+                            </Link>
+                           
                         </div>
                     </Toolbar>
                 </div>

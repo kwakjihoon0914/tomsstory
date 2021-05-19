@@ -13,6 +13,7 @@ import AppWrapper from "./app/containers/AppWrapper";
 import Editor from './app/containers/Editor';
 import Resume from './app/containers/Resume';
 import CommonConfig from './app/config/CommonConfig';
+import BlogList from './app/containers/BlogList';
 
 const useStyles = makeStyles(theme => ({
 
@@ -32,6 +33,8 @@ const App = () => {
         <TopAppBar />
         <Switch >
           <Route path="/blogs/:menu/:id" render={(props) => (<Blog {...props} /> )} />
+          <Route path="/blogs/:id" render={(props) => (<Blog {...props} /> )} />
+          <Route path="/blogs" render={(props) => (<BlogList {...props} /> )} />
           <Route path="/edit" render={(props) => <Editor {...props} />} />
           <Route path="/intro" render={(props) => <Resume {...props} />} />
 
