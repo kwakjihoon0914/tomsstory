@@ -1,16 +1,14 @@
 
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,useRouteMatch
+import {useRouteMatch
 } from "react-router-dom";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AppBar, Toolbar, IconButton, Typography, Grid, Hidden,LinearProgress } from '@material-ui/core';
-import SideMenu from '../components/blog/SideMenu';
-import View from '../components/blog/View';
+import LeftSideMenu from '../components/blog/LeftSideMenu';
+import Content from '../components/blog/Content';
 import useWindowSize from '../hooks/useWindowSize';
+import CommonConfig from '../config/CommonConfig';
+import ContentService from '../services/ContentService';
 
 
 const useStyles = makeStyles(theme => ({
@@ -23,20 +21,28 @@ const useStyles = makeStyles(theme => ({
 const Blog = () => {
 
     const classes = useStyles();
-    const [contentId,setContentId] = useState(null);
+    const match = useRouteMatch();
+    const windowSize = useWindowSize();
+
+    const [content,setContent] = useState(null);
     const [menuWidth,setMenuWidth] = useState(0);
     const [conetentWidth,setContentWidth] = useState(0);
-    const windowSize = useWindowSize();
-    let match = useRouteMatch();
+   
+    const fetchContent = async (id,menu) =>{
+        try{
+            let content;
+            if (menu){
+                content = (await ContentService.getLastContent(menu)).data;
+            }else{
+                content = (await ContentService.getContentOne(id)).data;
+            }
+            setContent(content);
 
-    /**
-     * @name detectChangedContentId
-     * @desc 
-    */
-    useEffect(function detectChangedContentId(){
-       //fetch content By id
-       setContentId(match.params.contentId)
-    },[match.params.contentId])
+        }catch(e){
+            setContent(null);
+            console.error(e)
+        }
+    }
 
     /**
      * @name setChangedWidth
@@ -47,19 +53,46 @@ const Blog = () => {
         setContentWidth(windowSize.width/12*9);
     },[windowSize.width]);
 
+
+    /**
+     * @name detectChangedContentId
+     * @desc title 변경
+    */
+    useEffect(function detectChangedCotent(){
+        if (!content || !content.title){
+            document.title = `${CommonConfig.APP_NAME}`;
+        }else{
+            document.title = `${content.title} - ${CommonConfig.APP_NAME} Blog`;
+        }
+        
+    },[content]);
+
     
+    /**
+     * @name handleChangedMatch
+     * @desc 라우터 패스 변경감지
+    */
+    useEffect(function handleChangedMatch(){
+        let contentId   = match.params.id;
+        let menu = match.params.menu;
+        fetchContent(contentId,menu);
+    },[match.params.menu,match.params.id]);
     
 
     return (
         <div className={classes.blogContainer}>
             <Grid container spacing={0}>
+            
+                {/* 1. Left Side Menu */}
                 <Grid item md={3} lg={3} xl={2}>
                     <Hidden smDown>
-                        <SideMenu menuWidth={menuWidth}/>
+                        <LeftSideMenu menuWidth={menuWidth}/>
                     </Hidden>
                 </Grid>
+
+                {/* 2. Blog Content */}
                 <Grid item xs={12} sm={12} md={9} lg={9} xl={10}>
-                    <View conetentWidth={conetentWidth} contentId={contentId} />
+                    <Content content={content} conetentWidth={conetentWidth} />
                 </Grid>
             </Grid>
         </div>

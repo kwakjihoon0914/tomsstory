@@ -19,6 +19,9 @@ const Editor = () => {
 
     useEffect(()=>{
         console.log(value)
+
+
+        alert(1)
     },[value])
 
     return (

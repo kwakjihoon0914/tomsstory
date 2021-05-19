@@ -12,6 +12,7 @@ import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import CommonStyle from '../styles/CommonStyle';
 
 import {isMobile} from  "react-device-detect";
+import CommonConfig from '../config/CommonConfig';
 
 const useStyles = makeStyles(theme => ({
     offset: theme.mixins.toolbar,
@@ -110,9 +111,9 @@ const TopAppBar = () => {
                         
                         {/***************** Logo *****************/}
                         <div>
-                            <Link to="/edit" className={classes.nabLink}>
+                            <Link to="/intro" className={classes.nabLink}>
                                 <Typography className={classes.topAppBarTitle} style={{ color: getInnerTextColor() }} variant={isMobile?"h6":"h5"}>
-                                    TOM's Story
+                                    {CommonConfig.APP_NAME}
                                 </Typography>
                                 <div className={classes.topAppBarTitle} style={{ color: getInnerTextColor(), fontSize:(isMobile?14:20) }}>
                                     지식 저장소
@@ -126,7 +127,7 @@ const TopAppBar = () => {
                                 <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>INTRO</Button>
                             </Link>
                             <span style={{ color: getInnerTextColor() }}>|</span>
-                            <Link to="/blogs/3" className={classes.nabLink}>
+                            <Link to="/blogs/home/last" className={classes.nabLink}>
                                 <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor }}>BLOG</Button>
                             </Link>
                         </div>
