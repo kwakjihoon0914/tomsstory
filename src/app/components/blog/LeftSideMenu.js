@@ -22,9 +22,6 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 
-    menuContainer: {
-        width: '100%',
-    },
     drawer: {
         width: theme => `${theme.menuWidth}px`,
         flexShrink: 0,
@@ -108,7 +105,7 @@ const LeftSideMenu = ({ menuWidth ,contents}) => {
         <Drawer className={classes.drawer} variant="permanent" >
             <Toolbar />
             <div className={classes.drawerContainer}>
-                <List className={classes.menuContainer} component="nav">
+                <List  component="nav">
                     {/* 0. Home */}
                     <ListItemWithIcon active={activateMenu === "home"} text={"Home"} icon={<FaHome size={25} />} clickHandler={() => linkTo( "home")} />
                     <Divider />

@@ -9,13 +9,13 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import Comment from "../../containers/Comment"
 import Title from './Title';
+import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 
 const useStyles = makeStyles((theme) => ({
     contentPaper: {
         padding: theme.spacing(2),
         margin: theme.spacing(1),
-
     }
 }));
 
@@ -30,7 +30,8 @@ const renderers = {
 }
 
 const RenderedContent = ({ content ,type }) => {
-    const classes = useStyles();
+    const {isMobile} = useDeviceDetect();
+    const classes = useStyles({isMobile});
 
     return (
         <div>

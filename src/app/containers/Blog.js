@@ -26,6 +26,7 @@ const Blog = () => {
 
     const [content,setContent] = useState(null);
     const [menuWidth,setMenuWidth] = useState(0);
+    const [contentWidth,setConetnWidth] = useState(windowSize);
    
     const fetchContent = async (id,menu) =>{
         try{
@@ -80,6 +81,7 @@ const Blog = () => {
     return (
         <div className={classes.blogContainer}>
             <Grid container spacing={0}>
+                {/* <LeftSideMenu menuWidth={menuWidth} contentWidth={contentWidth}/> */}
                 <Content content={content}/>
             </Grid>
         </div>

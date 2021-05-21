@@ -9,26 +9,30 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Content from '../components/blog/Content';
 import useWindowSize from '../hooks/useWindowSize';
 import ContentService from '../services/ContentService';
-import { Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Divider, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Collapse, Divider, Grid, IconButton, InputAdornment, TextField, Typography, Zoom } from '@material-ui/core';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import CommonStyle from '../styles/CommonStyle';
 import ContentCard from '../components/blogList/CotentCard';
 import ContentCardList from '../components/blogList/ContentCardList';
 import useScrollBottom from '../hooks/useScrollBottom';
-import { FaBook } from 'react-icons/fa';
+import { FaBook, FaSearch } from 'react-icons/fa';
+
+import { BsGridFill } from 'react-icons/bs';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import Title from '../components/blogList/Title';
+
 
 
 const useStyles = makeStyles(theme => ({
     blogListContainer: {
         marginTop: 0,
-        padding: 10,
-        
+        flexDirection: "column"
     },
     loadingContainer: {
         display: "flex",
         justifyContent: "center",
-        width:"100%",
-        margin:10
+        width: "100%",
+        margin: 10
     },
     contentListCaption: {
         marginLeft: 15,
@@ -37,12 +41,15 @@ const useStyles = makeStyles(theme => ({
         flexDirection: "row"
     },
     contentListCaptionText: {
+        marginTop:30,
         fontWeight: "600",
-        fontSize: 23,
+        fontSize: 25,
         color: CommonStyle.mainBoldColor
-    }
+    },
+
 
 }));
+
 
 
 const Caption = ({ text }) => {
@@ -58,11 +65,12 @@ const BlogList = () => {
 
     const classes = useStyles();
     const { isBottom } = useScrollBottom();
-    const [progressStatus,setProgressStatus] = useState(false);
+    const [progressStatus, setProgressStatus] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [renderedPage, setRenderedPage] = useState(); // for bug
     const [contentList, setContentList] = useState([]);
+   
 
     const fetchContentList = async () => {
         try {
@@ -85,7 +93,7 @@ const BlogList = () => {
 
         } catch (e) {
             console.log(e)
-        } finally{
+        } finally {
             setProgressStatus(false);
         }
     }
@@ -102,22 +110,28 @@ const BlogList = () => {
 
 
     return (
-        <Grid container className={classes.blogListContainer}>
-            {contentList.length > 1 &&
-                <>
-                    <Caption text={"Hot"} />
-                    <ContentCard content={contentList[0] ? contentList[0] : undefined} />
-                </>
-            }
-            <Caption text={"New"} />
+        <Grid alignContent={"center"} container className={classes.blogListContainer}>
+            <Title/> 
+            
+            <Grid>
+                {/* 1. Hot */}
+                {contentList.length > 1 &&
+                    <>
+                        <Caption text={"Hot"} />
+                        <ContentCard content={contentList[0] ? contentList[0] : undefined} />
+                    </>
+                }
+                {/* 2. New */}
+                <Caption text={"New"} />
+                <ContentCardList contentList={contentList} />
 
-            <ContentCardList contentList={contentList} />
-            {progressStatus &&
-                <div className={classes.loadingContainer}>
-                    <CircularProgress thickness={10} size={20} />
-                </div>
-            }
-
+                {/* 99. Circular Progress  */}
+                {progressStatus &&
+                    <div className={classes.loadingContainer}>
+                        <CircularProgress thickness={10} size={20} />
+                    </div>
+                }
+            </Grid>
         </Grid>
     )
 }
