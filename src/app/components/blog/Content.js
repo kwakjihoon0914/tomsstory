@@ -19,71 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const markdown = `A paragraph with *emphasis* and **strong importance**.
- 
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
- 
-* Lists
-* [ ] todo
-* [x] done
- 
-A table:
- 
-| a | b |
-| - | - |
-
-
-
-# Java is Gool!
-
-
-~~~java
-  public static void main(String args){
-      System.out.println("Hellow World");
-
-      //test
-  }
-~~~
-
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
- 
-* Lists
-* [ ] todo
-* [x] done
- 
-A table:
- 
-| a | b |
-| - | - |
-
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
- 
-* Lists
-* [ ] todo
-* [x] done
- 
-A table:
- 
-| a | b |
-| - | - |
-
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
- 
-* Lists
-* [ ] todo
-* [x] done
- 
-A table:
- 
-| a | b |
-| - | - |
-
-`
-
-
 const Content = ({ content }) => {
     const classes = useStyles();
 
@@ -100,7 +35,7 @@ const Content = ({ content }) => {
                     </div>
                 )
                :(
-                    <Title {...{title:"준비중",subTitle:"-",createdAt:"Kwak ji hoon"}} />
+                    <Title {...{title:"준비중",subTitle:"-",createdBy:"Kwak ji hoon",createdAt:"-"}} />
                 )
             }
         </div>

@@ -7,7 +7,6 @@ const  ContentService = {
     getContentOne : (contentId) => {
         return CommonAxios.get(`/blog/contents/${contentId}`);
     },
-
     getLastContentByMenu: (contentMenu) => {
         return CommonAxios.get(`/blog/contents/${contentMenu}/last`);
     },
@@ -16,7 +15,10 @@ const  ContentService = {
     },
     getContentListByPage: (page,size) =>{
         return CommonAxios.get(`/blog/contents?page=${page}&size=${size}`);
-    }
+    },
+    getContentsByTitle : (title,page,size) =>{
+        return CommonAxios.get(`/blog/contents?page=${page}&size=${size}&title=${title}`);
+    },
 
 }
 

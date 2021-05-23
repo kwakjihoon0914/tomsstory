@@ -8,7 +8,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Collapse, Divider, Grid, IconButton, InputAdornment, TextField, Typography, Zoom } from '@material-ui/core';
 import CommonStyle from '../../styles/CommonStyle';
-import { FaBook, FaSearch } from 'react-icons/fa';
+import { FaBook, FaList, FaSearch } from 'react-icons/fa';
 
 import { BsGridFill } from 'react-icons/bs';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -23,18 +23,25 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const SearchBar = ({ }) => {
+const SearchBar = ({queryText }) => {
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
+    const [searchText,setSearchText] = useState(queryText?queryText:"");
+    const history = useHistory();
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        let link = `/blogs?title=${searchText}`;
+        history.push(link);
+    }
     return (
-        <form noValidate autoComplete="off">
-            <TextField className={classes.searchBarContainer} label="검색" />
+        <form onSubmit={onSubmit} noValidate autoComplete="off">
+            <TextField value={searchText} onChange={(e)=>setSearchText(e.target.value)} className={classes.searchBarContainer} label="검색" />
         </form>
     );
 }
 
-const Title = ({ }) => {
+const Title = ({ queryText,location }) => {
     const classes = useStyles();
     const [searchBarActivate, setSearchBarActivate] = useState(false);
     const toggleSearchBar = (e) => {
@@ -43,6 +50,7 @@ const Title = ({ }) => {
             e.target.focus();
         }
     }
+    
     return (
         <>
             <Grid className={classes.root}>
@@ -53,7 +61,6 @@ const Title = ({ }) => {
                         <span style={{ fontSize: "150%" }}> Notepad</span>
                     </Typography>
                 </div>
-
 
                 <Grid className={classes.btnGroup}>
                     <div style={{ margin: 10 }}>
@@ -72,7 +79,7 @@ const Title = ({ }) => {
             <Collapse  in={searchBarActivate}>
             <Zoom in={searchBarActivate}>
                 <Grid style={{ justifyContent: "center", display: "flex" }}>
-                    <SearchBar />
+                    <SearchBar queryText={queryText}/>
                 </Grid>
             </Zoom>
             </Collapse>

@@ -70,10 +70,11 @@ const NestedItemWithIcon = ({ active, text, icon, clickHandler, isCollapse, chil
 }
 const LeftSideMenu = ({ menuWidth ,contents}) => {
     const classes = useStyles({ menuWidth });
+    const [activateMenu, setActivateMenu] = useState("");
     const [menuCollapses, setMenuCollapses] = useState({
         "java": false, "js": false, "db": false
     });
-    const [activateMenu, setActivateMenu] = useState("");
+    
     
     const history = useHistory();
     const linkTo = useCallback((link) => {
@@ -86,6 +87,8 @@ const LeftSideMenu = ({ menuWidth ,contents}) => {
         if (contents) arr = contents;
         return arr.filter( content => content.menu == menu).length;
     }
+
+
     const toggleCollapseMenu = (item) => {
         //1. children 메뉴 떨어뜨리자
         let copied = { ...menuCollapses };

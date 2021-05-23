@@ -1,14 +1,19 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
+import { Collapse, createMuiTheme, Grid, IconButton, TextField, ThemeProvider, Typography, Zoom } from '@material-ui/core';
 import CommonStyle from '../../styles/CommonStyle';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
-import { FaJava, FaDatabase, FaChrome, FaReact, FaServer, FaHome, FaSearchPlus } from 'react-icons/fa';
+import { FaJava, FaDatabase, FaChrome, FaReact, FaServer, FaHome, FaSearchPlus, FaList } from 'react-icons/fa';
 import { IoLogoJavascript, IoCodeSlashOutline } from "react-icons/io5";
 import { SiSpring, SiApachemaven } from "react-icons/si";
 
+import { FaBook, FaSearch } from 'react-icons/fa';
+
+import { BsGridFill } from 'react-icons/bs';
+import { useHistory } from 'react-router';
+import DateUtils from '../../utils/DateUtils';
 const useStyles = makeStyles((theme) => ({
     titleContainer: {
         height: 180
@@ -27,44 +32,50 @@ const useStyles = makeStyles((theme) => ({
         top: "calc(40% - 20px)",
         color: CommonStyle.mainColor
     },
-    underNavBarContainer: {
-        backgroundColor: "rgb(40, 42, 54)",
-        textAlign: "center",
-    },
-    navBtnContainer: {
-        paddingBottom: 20
-    },
-    navBtn: {
-        margin: 5,
-        color: CommonStyle.mainComplementaryColor,
+    btnGroup: { justifyContent: "center", display: "flex", marginTop: 10 },
+    searchBarContainer: {
+        width: "40ch",
+        margin: theme.spacing(1)
     }
 
 }));
-const NavBarBtn = ({ }) => {
+
+const SearchBar = ({}) => {
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
+    const [searchText,setSearchText] = useState("");
+    const history = useHistory();
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        let link = `/blogs?title=${searchText}`;
+        history.push(link);
+    }
     return (
-        <span className={classes.navBtn}>
-            <FaSearchPlus size={25} />
-        </span>
-    )
-}
-const UnderNavBar = ({ }) => {
-    const { isMobile } = useDeviceDetect();
-    const classes = useStyles({ isMobile });
-    return (
-        <div className={classes.underNavBarContainer}>
-            <div className={classes.navBtnContainer}>
-                <NavBarBtn />
-                <NavBarBtn />
-            </div>
-        </div>
-    )
+        <form onSubmit={onSubmit} noValidate autoComplete="off">
+            <TextField value={searchText} onChange={(e)=>setSearchText(e.target.value)} className={classes.searchBarContainer} label="검색" />
+        </form>
+    );
 }
 
-const Title = ({ title, subTitle, createdBy, createdAt }) => {
+const Title = ({ title, subTitle, createdBy, createdAt,lastModifiedAt }) => {
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
+    const [searchBarActivate, setSearchBarActivate] = useState(false);
+    const history = useHistory();
+    
+    const goBlogList = useCallback(() => {
+        let link = `/blogs`;
+        history.push(link);
+    }, [history]);
+    
+    const toggleSearchBar = (e) => {
+        setSearchBarActivate(!searchBarActivate);
+        if (searchBarActivate) {
+            e.target.focus();
+        }
+    }
+   
     const titleTheme = createMuiTheme({
         typography: {
             h3: {
@@ -78,7 +89,6 @@ const Title = ({ title, subTitle, createdBy, createdAt }) => {
                 fontSize: isMobile ? 12 : 15,
             },
         },
-
     });
 
     return (
@@ -94,6 +104,34 @@ const Title = ({ title, subTitle, createdBy, createdAt }) => {
                     By. {createdBy} - {createdAt}
                 </Typography>
             </div>
+            <Grid className={classes.btnGroup}>
+                <div style={{ margin: 10 }}>
+                    <IconButton onClick={toggleSearchBar}>
+                        <FaSearch size={30} color={CommonStyle.mainColor} />
+                    </IconButton>
+                </div>
+                <div style={{ margin: 10 }}>
+                    <IconButton>
+                        <BsGridFill size={30} color={CommonStyle.mainColor} />
+                    </IconButton>
+                </div>
+                <div style={{ margin: 10 }}>
+                    <IconButton onClick={goBlogList}>
+                        <FaList size={30} color={CommonStyle.mainColor} />
+                    </IconButton>
+                </div>
+            </Grid>
+
+            <div>
+                <Collapse in={searchBarActivate}>
+                    <Zoom in={searchBarActivate}>
+                        <Grid style={{ justifyContent: "center", display: "flex" }}>
+                            <SearchBar />
+                        </Grid>
+                    </Zoom>
+                </Collapse>
+            </div>
+
             {/* <UnderNavBar /> */}
         </ThemeProvider>
     )

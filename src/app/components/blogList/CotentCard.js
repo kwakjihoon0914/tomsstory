@@ -36,8 +36,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
-
 const ContentCard = ({ content }) => {
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
@@ -48,23 +46,38 @@ const ContentCard = ({ content }) => {
         history.push(link);
     }, [history]);
 
+    const rederThumbnailUrl = useCallback(()=>{
+        let url ="../../images/"+content.thumbnail.toLowerCase() +".png";
+        return url;
+    },[content])
+
+    const renderMenuName = useCallback(()=>{
+        let depth = [];
+        let temp = content.menu;
+        while (temp) {
+            depth.unshift(temp.name);
+            temp = temp.parent;
+        }
+        return depth.join(" / ");
+    },[content])
+
     const renderedModifiedDate = useCallback(()=>{
         let lastModifiedAt = new Date(content.lastModifiedAt);
         return DateUtils.convertYYYY_MM_DDFrom(lastModifiedAt);
     },[content])
 
     return (
-        <Card className={classes.cardContainer} key={content.id} onClick={onclickCard}>
+        <Card className={classes.cardContainer} onClick={onclickCard}>
              <CardMedia
                 className={classes.cover}
-                image={"../../images/"+content.menu+".png"}
+                image={rederThumbnailUrl()}
                 title=""
             />
             <div className={classes.cardDetails}>
            
                 <CardContent>
                     <Typography variant="overline" color="textSecondary">
-                        {content.menu}
+                        {renderMenuName()}
                     </Typography>
                     <Typography style={{fontSize:isMobile?15:25}} color={"textPrimary"}  >
                         {content.title}
