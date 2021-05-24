@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import React, { useEffect } from "react";
 import TopAppBar from './app/containers/TopAppBar';
@@ -32,6 +33,11 @@ const App = () => {
       <AppWrapper>
         <TopAppBar />
         <Switch >
+
+        <Route exact path="/">
+            <Redirect to="/blogs" />
+        </Route>
+
           <Route path="/blogs/:menu/:id" render={(props) => (<Blog {...props} /> )} />
           <Route path="/blogs/:id" render={(props) => (<Blog {...props} /> )} />
           <Route path="/blogs" render={(props) => (<BlogList {...props} /> )} />

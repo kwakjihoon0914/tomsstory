@@ -29,16 +29,14 @@ const renderers = {
     }
 }
 
-const RenderedContent = ({ content ,type }) => {
-    const {isMobile} = useDeviceDetect();
-    const classes = useStyles({isMobile});
+const RenderedContent = ({ content, type }) => {
+    const { isMobile } = useDeviceDetect();
+    const classes = useStyles({ isMobile });
 
     return (
-        <div>
-            <Paper elevation={2} className={classes.contentPaper}>
-                <ReactMarkdown renderers={renderers} children={content} />
-            </Paper>
-        </div>
+        <Paper elevation={2} className={classes.contentPaper}>
+            <ReactMarkdown renderers={renderers} children={content} />
+        </Paper>
     )
 }
 

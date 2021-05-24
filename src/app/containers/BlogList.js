@@ -7,12 +7,14 @@ import ContentCard from '../components/blogList/CotentCard';
 import ContentCardList from '../components/blogList/ContentCardList';
 import useScrollBottom from '../hooks/useScrollBottom';
 import Title from '../components/blogList/Title';
+import useDeviceDetect from '../hooks/useDeviceDetect';
 
 
 const useStyles = makeStyles(theme => ({
     blogListContainer: {
         marginTop: 0,
-        flexDirection: "column"
+        flexDirection: "row",
+        justifyContent:"center"
     },
     loadingContainer: {
         display: "flex",
@@ -49,6 +51,7 @@ const BlogList = ({location}) => {
 
     const classes = useStyles();
     const { isBottom } = useScrollBottom();
+    const { isMobile}  = useDeviceDetect();
     const [progressStatus, setProgressStatus] = useState(false);
 
     const [hasMore, setHasMore] = useState(true);
@@ -111,9 +114,10 @@ const BlogList = ({location}) => {
     
 
     return (
-        <Grid alignContent={"center"} container className={classes.blogListContainer}>
+        <Grid container className={classes.blogListContainer}>
             <Title /> 
-            <Grid>
+            <Grid md={isMobile?12:10}>
+                <Grid item >
                 {contentList.length > 0 &&
                     <>
                         {/* 1. Hot */}
@@ -132,6 +136,7 @@ const BlogList = ({location}) => {
                         }
                     </>
                 }
+                </Grid>
             </Grid>
         </Grid>
     )

@@ -9,11 +9,12 @@ import Content from '../components/blog/Content';
 import useWindowSize from '../hooks/useWindowSize';
 import CommonConfig from '../config/CommonConfig';
 import ContentService from '../services/ContentService';
+import useDeviceDetect from '../hooks/useDeviceDetect';
 
 
 const useStyles = makeStyles(theme => ({
     blogContainer:{
-        backgroundColor:"#f6faf5"
+        backgroundColor:"#f6faf5",
     }
 }))
 
@@ -27,7 +28,8 @@ const Blog = () => {
     const [content,setContent] = useState(null);
     const [menuWidth,setMenuWidth] = useState(0);
     const [contentWidth,setConetnWidth] = useState(windowSize);
-   
+    
+
     const fetchContent = async (id,menu) =>{
         try{
             let content;
@@ -79,12 +81,12 @@ const Blog = () => {
     
 
     return (
-        <div className={classes.blogContainer}>
-            <Grid container spacing={0}>
+        <Grid className={classes.blogContainer}>
+            <Grid>
                 {/* <LeftSideMenu menuWidth={menuWidth} contentWidth={contentWidth}/> */}
                 <Content content={content}/>
             </Grid>
-        </div>
+        </Grid>
 
     )
 }
