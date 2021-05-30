@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
+  BrowserRouter
 } from "react-router-dom";
 import React, { useEffect } from "react";
 import TopAppBar from './app/containers/TopAppBar';
@@ -29,7 +30,7 @@ const App = () => {
   })
 
   return (
-    <Router>
+    <BrowserRouter>
       <AppWrapper>
         <TopAppBar />
         <Switch >
@@ -50,7 +51,7 @@ const App = () => {
           </div>
         </Switch>
       </AppWrapper>
-    </Router>
+    </BrowserRouter>
   );
 }
 
