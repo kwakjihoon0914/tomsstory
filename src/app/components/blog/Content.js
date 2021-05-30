@@ -34,7 +34,7 @@ const Content = ({ content }) => {
                     <div>
                         <Title {...content} />
                         <Grid container className={classes.wrapper} >
-                            <Grid item md={isMobile ? 12 : 10}>
+                            <Grid item xs={isMobile ? 12 : 10}>
                                 <RenderedContent type={"md"} content={content.text} />
                                 <Comment type={"blog"} requestId={content.id} />
                             </Grid>

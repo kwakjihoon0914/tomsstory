@@ -116,7 +116,7 @@ const BlogList = ({location}) => {
     return (
         <Grid container className={classes.blogListContainer}>
             <Title /> 
-            <Grid md={isMobile?12:10}>
+            <Grid xs={isMobile?12:10}>
                 <Grid item >
                 {contentList.length > 0 &&
                     <>

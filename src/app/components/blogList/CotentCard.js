@@ -15,8 +15,8 @@ const useStyles = makeStyles(theme => ({
     cardContainer: {
         display: "flex",
         boxShadow: "-1px 10px 29px 0px rgba(0,0,0,0.2)",
-        marginLeft:theme => theme.isMobile?0:20,
-        marginRight:theme => theme.isMobile?0:20,
+        //marginLeft:theme => theme.isMobile?0:20,
+        //marginRight:theme => theme.isMobile?0:20,
         marginTop:20,
         
         "&:hover": {
@@ -37,6 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const ContentCard = ({ content }) => {
+
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
 
