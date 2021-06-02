@@ -48,11 +48,13 @@ const ContentCard = ({ content }) => {
     }, [history]);
 
     const rederThumbnailUrl = useCallback(()=>{
+        if (!content || !content.thumbnail) return "";
         let url ="../../images/"+content.thumbnail.toLowerCase() +".png";
         return url;
     },[content])
 
     const renderMenuName = useCallback(()=>{
+        if (!content || !content.menu) return "";
         let depth = [];
         let temp = content.menu;
         while (temp) {

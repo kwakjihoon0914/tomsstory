@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     blogListContainer: {
         marginTop: 0,
         flexDirection: "row",
-        justifyContent:"center"
+        justifyContent: "center"
     },
     loadingContainer: {
         display: "flex",
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: "row"
     },
     contentListCaptionText: {
-        marginTop:30,
+        marginTop: 30,
         fontWeight: "600",
         fontSize: 25,
         color: CommonStyle.mainBoldColor
@@ -47,33 +47,34 @@ const Caption = ({ text }) => {
             </Typography>
         </div>)
 }
-const BlogList = ({location}) => {
+const BlogList = ({ location }) => {
 
     const classes = useStyles();
     const { isBottom } = useScrollBottom();
-    const { isMobile}  = useDeviceDetect();
+    const { isMobile } = useDeviceDetect();
     const [progressStatus, setProgressStatus] = useState(false);
 
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(-1);
     const [contentList, setContentList] = useState([]);
-    
-    const queryToObject= (query) =>{
+    const [query, setQuery] = useState("");
+
+    const queryToObject = (query) => {
         query = query.substring(1)
         return Object.fromEntries(new URLSearchParams(query));
     }
 
-    const fetchContentList = async (page,title) => {
+    const fetchContentList = async (page, title) => {
         try {
-            
+
             setProgressStatus(true);
-            
+
             // 2) 이전 페이지와 합치자!
-            let currentContentList = page==0 ? [] : [...contentList];
+            let currentContentList = page == 0 ? [] : [...contentList];
             let fetchedContentListWithPage;
-            if (title){
-                fetchedContentListWithPage = (await ContentService.getContentsByTitle(title,page, 5)).data;
-            }else{
+            if (title) {
+                fetchedContentListWithPage = (await ContentService.getContentsByTitle(title, page, 5)).data;
+            } else {
                 fetchedContentListWithPage = (await ContentService.getContentListByPage(page, 5)).data;
             }
             Array.prototype.push.apply(currentContentList, fetchedContentListWithPage.contents);
@@ -92,50 +93,76 @@ const BlogList = ({location}) => {
             setProgressStatus(false);
         }
     }
-    function fetch(page){
-        let title= queryToObject(location.search).title
-        if (title && title.trim() != ""){
-            fetchContentList(page,title);
-        }else{
+    function fetch(page) {
+        let title = queryToObject(location.search).title
+        if (title && title.trim() != "") {
+            setQuery(title);
+            fetchContentList(page, title);
+        } else {
             fetchContentList(page);
         }
     }
 
-    useEffect(function refresh(){
+    useEffect(function refresh() {
         setHasMore(true);
         fetch(0);
-    },[location.search])
+    }, [location.search])
 
     useEffect(function detectScroll() {
         if (isBottom && hasMore) {
-            fetch(currentPage+1);
+            fetch(currentPage + 1);
         }
     }, [isBottom]);
-    
+
 
     return (
         <Grid container className={classes.blogListContainer}>
-            <Title /> 
-            <Grid xs={isMobile?12:10}>
+            <Title />
+            <Grid xs={isMobile ? 12 : 10}>
                 <Grid item >
-                {contentList.length > 0 &&
-                    <>
-                        {/* 1. Hot */}
-                        <Caption text={"Hot"} />
-                        <ContentCard content={contentList[0] ? contentList[0] : undefined} />
-                        
-                        {/* 2. New */}
-                        <Caption text={"New"} />
-                        <ContentCardList contentList={contentList} />
+                    {contentList.length > 0 && !query ?
+                        <>
+                            {/***************** Default *****************/}
+                            {/* 1. Hot */}
+                            <Caption text={"Hot"} />
+                            <ContentCard content={contentList[0] ? contentList[0] : undefined} />
 
-                        {/* 99. Circular Progress  */}
-                        {progressStatus &&
-                            <div className={classes.loadingContainer}>
-                                <CircularProgress thickness={10} size={20} />
-                            </div>
-                        }
-                    </>
-                }
+                            {/* 2. New */}
+                            <Caption text={"New"} />
+                            <ContentCardList contentList={contentList} />
+                        </>
+                        :
+                        <>
+                            {/***************** 검색결과 *****************/}
+                            {contentList.length > 0
+                                ? <>
+                                    {/* 1. List */}
+                                    <Typography style={{ margin: 15 }}>
+                                        <span style={{ color: "#fa3830" }}>'{query}' </span>에 대한 검색결과
+                                    </Typography>
+                                    <ContentCardList contentList={contentList} />
+                                </>
+                                : (
+                                    <Grid container
+                                        spacing={0}
+                                        direction="row"
+                                        alignItems="center"
+                                        justify="center">
+                                        <Typography style={{ margin: 30 }}>
+                                            <span style={{ color: "#fa3830" }}>'{query}' </span>대한 검색결과가 없습니다.
+                                        </Typography>
+                                    </Grid>
+                                )
+                            }
+                        </>
+                    }
+                    {/* 99. Circular Progress  */}
+                    {progressStatus &&
+                        <div className={classes.loadingContainer}>
+                            <CircularProgress thickness={10} size={20} />
+                        </div>
+                    }
+
                 </Grid>
             </Grid>
         </Grid>

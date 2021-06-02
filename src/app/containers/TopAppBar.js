@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
             boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
         }
     },
+    // for access inner property
     get topAppBarComplementary() {
         return this.topAppBar["&:hover"];
     }
@@ -140,9 +141,10 @@ const TopAppBar = () => {
                                 <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor, fontSize: (isMobile ? 16 : 20) }}>Blog</Button>
                             </Link>
                             <span style={{ color: getInnerTextColor() }}>|</span>
-                            <Link to="//github.com/kwakjihoon0914" target="_blank" className={classes.nabLink}>
+                            <a href="https://github.com/kwakjihoon0914" target="_blank" className={classes.nabLink}>
+                                {/* prevent hash router */}
                                 <Button className={classes.btnLink} style={{ color: CommonStyle.mainBoldColor, fontSize: (isMobile ? 16 : 20) }}>Git</Button>
-                            </Link>
+                            </a>
 
                         </div>
                     </Toolbar>
