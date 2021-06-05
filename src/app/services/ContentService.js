@@ -10,6 +10,9 @@ const  ContentService = {
     getContentOne : (contentId) => {
         return CommonAxios.get(`${prefix}/blog/contents/${contentId}`);
     },
+    getContentHotOne : () => {
+        return CommonAxios.get(`${prefix}/blog/contents/hot`);
+    },
     getLastContentByMenu: (contentMenu) => {
         return CommonAxios.get(`${prefix}/blog/contents/${contentMenu}/last`);
     },
@@ -22,6 +25,14 @@ const  ContentService = {
     getContentsByTitle : (title,page,size) =>{
         return CommonAxios.get(`${prefix}/blog/contents?page=${page}&size=${size}&title=${title}`);
     },
+
+    getAllMenus:()=>{
+        return CommonAxios.get(`${prefix}/blog/menus`);
+    },
+
+    createContent: (createdContent) => {
+        return CommonAxios.post(`${prefix}/blog/contents`,createdContent);
+    }
 
 }
 

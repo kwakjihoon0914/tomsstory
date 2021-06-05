@@ -13,7 +13,7 @@ import TopAppBar from './app/containers/TopAppBar';
 import SubContent from './app/containers/SubContent';
 import Blog from './app/containers/Blog';
 import AppWrapper from "./app/containers/AppWrapper";
-import Editor from './app/containers/Editor';
+import ContentEditor from './app/containers/ContentEditor';
 import Resume from './app/containers/Resume';
 import CommonConfig from './app/config/CommonConfig';
 import BlogList from './app/containers/BlogList';
@@ -43,7 +43,7 @@ const App = () => {
           <Route path="/blogs/:menu/:id" render={(props) => (<Blog {...props} /> )} />
           <Route path="/blogs/:id" render={(props) => (<Blog {...props} /> )} />
           <Route path="/blogs" render={(props) => (<BlogList {...props} /> )} />
-          <Route path="/edit" render={(props) => <Editor {...props} />} />
+          <Route path="/edit" render={(props) => <ContentEditor {...props} />} />
           <Route path="/intro" render={(props) => <Resume {...props} />} />
 
           {/* defualt route */}

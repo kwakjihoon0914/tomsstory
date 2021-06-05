@@ -99,6 +99,12 @@ const Title = ({ title, subTitle, createdBy, createdAt,lastModifiedAt }) => {
         },
     });
 
+
+    const renderedModifiedDate = useCallback(()=>{
+        let mdfDate = new Date(lastModifiedAt);
+        return DateUtils.convertYYYY_MM_DDFrom(mdfDate);
+    },[lastModifiedAt])
+
     return (
         <ThemeProvider theme={titleTheme}>
             <div className={classes.titleContainer}>
@@ -109,7 +115,7 @@ const Title = ({ title, subTitle, createdBy, createdAt,lastModifiedAt }) => {
                     {subTitle}
                 </Typography>
                 <Typography className={classes.createdInfoText} variant="subtitle1">
-                    By. {createdBy} - {createdAt}
+                    By. {createdBy} - {renderedModifiedDate()}
                 </Typography>
             </div>
             <Grid className={classes.btnGroup}>

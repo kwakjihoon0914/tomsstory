@@ -58,6 +58,7 @@ const BlogList = ({ location }) => {
     const [hasMore, setHasMore] = useState(true);
     const [currentPage, setCurrentPage] = useState(-1);
     const [contentList, setContentList] = useState([]);
+    const [hotContent,setHotContent] = useState();
 
     const [query, setQuery] = useState("");
     const prevQuery = useRef(query);
@@ -77,18 +78,20 @@ const BlogList = ({ location }) => {
             // 2) 이전 페이지와 합치자!
             let currentContentList = page == 0 ? [] : [...contentList];
             let fetchedContentListWithPage;
+            let fetchedHotContent; // blog list 호출시에만 업데이트하도록하자
             if (title) {
                 fetchedContentListWithPage = (await ContentService.getContentsByTitle(title, page, 5)).data;
             } else {
                 fetchedContentListWithPage = (await ContentService.getContentListByPage(page, 5)).data;
+                fetchedHotContent = (await ContentService.getContentHotOne()).data;
             }
             Array.prototype.push.apply(currentContentList, fetchedContentListWithPage.contents);
 
 
             // 3) 업데이트
+            setHotContent(fetchedHotContent); // hot content 가 먼저 렌더링 되니 순서를 꼭 지켜야함! 
             setContentList(currentContentList);
             setCurrentPage(fetchedContentListWithPage.pageRequest.page);
-
             // 4) 더 이상 페칭 가능한 데이터가 없으면
             if (fetchedContentListWithPage.contents.length == 0) setHasMore(false);
 
@@ -133,7 +136,7 @@ const BlogList = ({ location }) => {
                             {/***************** Default *****************/}
                             {/* 1. Hot */}
                             <Caption text={"Hot"} />
-                            <ContentCard content={contentList[0] ? contentList[0] : undefined} />
+                            <ContentCard content={hotContent ? hotContent : undefined} />
 
                             {/* 2. New */}
                             <Caption text={"New"} />
