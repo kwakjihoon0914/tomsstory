@@ -42,7 +42,7 @@ const Content = ({ content }) => {
                     </div>
                 )
                 : (
-                    <Title {...{ title: "준비중", subTitle: "-", createdBy: "Kwak ji hoon", createdAt: "-" }} />
+                    <Title {...{ title: ".", subTitle: ".", createdBy: ".", createdAt: "." }} />
                 )
             }
         </Grid>

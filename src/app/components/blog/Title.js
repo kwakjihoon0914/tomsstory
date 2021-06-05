@@ -1,7 +1,7 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Collapse, createMuiTheme, Grid, IconButton, TextField, ThemeProvider, Typography, Zoom } from '@material-ui/core';
+import { Button, Collapse, createMuiTheme, Grid, IconButton, TextField, ThemeProvider, Typography, Zoom } from '@material-ui/core';
 import CommonStyle from '../../styles/CommonStyle';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
@@ -10,10 +10,12 @@ import { IoLogoJavascript, IoCodeSlashOutline } from "react-icons/io5";
 import { SiSpring, SiApachemaven } from "react-icons/si";
 
 import { FaBook, FaSearch } from 'react-icons/fa';
+import { AiOutlineFileSearch } from 'react-icons/ai';
 
 import { BsGridFill } from 'react-icons/bs';
 import { useHistory } from 'react-router';
 import DateUtils from '../../utils/DateUtils';
+import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
     titleContainer: {
         height: 180
@@ -46,14 +48,20 @@ const SearchBar = ({}) => {
     const [searchText,setSearchText] = useState("");
     const history = useHistory();
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (e) => {
+        if (e)e.preventDefault();
         let link = `/blogs?title=${searchText}`;
         history.push(link);
     }
+    
     return (
-        <form onSubmit={onSubmit} noValidate autoComplete="off">
-            <TextField value={searchText} onChange={(e)=>setSearchText(e.target.value)} className={classes.searchBarContainer} label="검색" />
+        <form onSubmit={handleSubmit} noValidate autoComplete="off">
+            <TextField value={searchText} 
+                    onChange={(e)=>setSearchText(e.target.value)} 
+                    className={classes.searchBarContainer} 
+                    InputProps={{endAdornment: 
+                        <Link><FaSearch  color={"grey"} style={{margin:2}} onClick={handleSubmit} size={25}/></Link>}}
+                    label="검색" />
         </form>
     );
 }

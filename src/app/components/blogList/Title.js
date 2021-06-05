@@ -29,14 +29,19 @@ const SearchBar = ({queryText }) => {
     const [searchText,setSearchText] = useState(queryText?queryText:"");
     const history = useHistory();
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = (e) => {
+        if(e)e.preventDefault();
         let link = `/blogs?title=${searchText}`;
         history.push(link);
     }
     return (
-        <form onSubmit={onSubmit} noValidate autoComplete="off">
-            <TextField value={searchText} onChange={(e)=>setSearchText(e.target.value)} className={classes.searchBarContainer} label="검색" />
+        <form onSubmit={handleSubmit} noValidate autoComplete="off">
+            <TextField 
+                value={searchText} 
+                onChange={(e)=>setSearchText(e.target.value)} 
+                InputProps={{endAdornment: 
+                    <Link><FaSearch  color={"grey"} style={{margin:2}} onClick={handleSubmit} size={25}/></Link>}}
+                className={classes.searchBarContainer} label="검색" />
         </form>
     );
 }

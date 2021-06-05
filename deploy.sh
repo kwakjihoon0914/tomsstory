@@ -21,4 +21,6 @@ cp -R build/* ../kwakjihoon0914.github.io
 echo "Enter password"
 
 cd ../kwakjihoon0914.github.io
+git add .
+git commit -m "$1"
 git push 
