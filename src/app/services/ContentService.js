@@ -3,8 +3,8 @@
 import CommonAxios from "./CommonAxios";
 
 
-//const prefix = "https://blog.gy-tech.org";
-const prefix ="";
+const prefix = "https://blog.gy-tech.org";
+//const prefix ="";
 const  ContentService = {
     
     getContentOne : (contentId) => {

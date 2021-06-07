@@ -1,15 +1,11 @@
 
-
-
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Link, useHistory, useRouteMatch
 } from "react-router-dom";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, TextField, Typography } from '@material-ui/core';
-import CommonStyle from '../../styles/CommonStyle';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import moment from "moment";
 import DateUtils from '../../utils/DateUtils';
 const useStyles = makeStyles(theme => ({
     cardContainer: {
@@ -40,8 +36,8 @@ const ContentCard = ({ content }) => {
 
     const { isMobile } = useDeviceDetect();
     const classes = useStyles({ isMobile });
-
     const history = useHistory();
+
     const cardClickHandler = useCallback(() => {
         let link = `/blogs/${content.id}`;
         history.push(link);
@@ -49,8 +45,8 @@ const ContentCard = ({ content }) => {
 
     const rederThumbnailUrl = useCallback(()=>{
         if (!content || !content.thumbnail) return "";
-        let url ="../../images/"+content.thumbnail.toLowerCase() +".png";
-        return url;
+        //let url =content.thumbnail.toLowerCase();
+        return content.thumbnail;
     },[content])
 
     const renderMenuName = useCallback(()=>{

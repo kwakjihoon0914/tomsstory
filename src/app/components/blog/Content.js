@@ -36,13 +36,13 @@ const Content = ({ content }) => {
                         <Grid container className={classes.wrapper} >
                             <Grid item xs={isMobile ? 12 : 10}>
                                 <RenderedContent type={"md"} content={content.text} />
-                                <Comment type={"blog"} requestId={content.id} />
+                                {/* <Comment type={"blog"} requestId={content.id} /> */}
                             </Grid>
                         </Grid>
                     </div>
                 )
                 : (
-                    <Title {...{ title: ".", subTitle: ".", createdBy: ".", createdAt: "." }} />
+                    <Title {...{ title: "", subTitle: "", createdBy: "", createdAt: "" }} />
                 )
             }
         </Grid>

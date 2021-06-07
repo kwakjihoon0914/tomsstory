@@ -7,6 +7,7 @@ import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Te
 import ContentService from '../services/ContentService';
 import MarkdownEditor from '../components/editor/MarkdownEditor';
 import HTMLEditor from '../components/editor/HTMLEditor';
+import { useHistory } from 'react-router';
 const useStyles = makeStyles(theme => ({
     editorContainer: {
         margin: 5
@@ -22,7 +23,9 @@ const useStyles = makeStyles(theme => ({
         borderColor: "black"
     },
     selectBox: {
+        margin: 5,
         marginLeft: 10
+
     },
     inputBox: {
         display: "flex",
@@ -47,8 +50,11 @@ const ContentEditor = () => {
     const [menuId, setMenuId] = useState();
     const [type, setType] = useState("md");
 
-    const handleChangeText = (text) => {
-        setText(text)
+    const history = useHistory();
+
+
+    const handleChangeText = (e) => {
+        setText(e.target.value)
     }
     const handleChangeTitle = (e) => {
         setTitle(e.target.value)
@@ -62,12 +68,13 @@ const ContentEditor = () => {
     const handleChangeType = (e) => {
         setType(e.target.value)
     }
-    const handlerSubmit = () =>{
+    const handlerSubmit = () => {
 
-        let form = {title,subTitle,text,menu:{id:menuId},type};
-        
-        ContentService.createContent(form).then(()=>{
-            alert(1)
+        let form = { title, subTitle, text, menu: { id: menuId }, type };
+        ContentService.createContent(form).then((res) => {
+            history.push(`/blogs/${res.data.id}`);
+        }).catch((e) => {
+            alert("ERROR")
         })
 
         console.log(form)
@@ -101,6 +108,7 @@ const ContentEditor = () => {
                         }}
                         onChange={handleChangeMenuId}
                         native
+
                         name="menu" >
                         {menus.map((menu) => <option key={menu.id} value={menu.id}>{menu.name}</option>)}
                     </Select>
@@ -118,6 +126,14 @@ const ContentEditor = () => {
                         <option value={"md"}>Markdown</option>
                         <option value={"html"}>HTML</option>
                     </Select>
+                </FormControl>
+                <FormControl>
+                    <Button
+                        variant="contained"
+                        component="label"
+                    >
+                        <input name={"thumbnail"} type='file' />
+                    </Button>
                 </FormControl>
             </div>
 
@@ -155,10 +171,11 @@ const ContentEditor = () => {
             <Grid container>
                 <Grid className={classes.editorGrid} item xs={12}>
                     <Box border={1} borderColor="primary.main" borderRadius={5} padding={2}>
-                        {type == "md"
+                        <textarea style={{ width: "100%", height: 300 }} onChange={handleChangeText}>{text}</textarea>
+                        {/* {type == "md"
                             ? <MarkdownEditor defaultContent={text} handleChange={handleChangeText} />
                             : <HTMLEditor defaultContent={text} handleChange={handleChangeText} />
-                        }
+                        } */}
                     </Box>
                 </Grid>
             </Grid>
